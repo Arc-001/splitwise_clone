@@ -95,10 +95,16 @@ class RoundedButton extends JButton {
 //jdbc:sqlserver://server:port;DatabaseName=dbname
 class DatabaseManager {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/splitwise_clone";
-    private static final String USER = "test";
-    private static final String PASS = "password";
+    private static final String USER = "root";
+    private static final String PASS = "DB!d43m0n";
 
     public static Connection getConnection() throws SQLException {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "MySQL JDBC Driver not found. Include it in your library path.");
+        }
         return DriverManager.getConnection(DB_URL, USER, PASS);
     }
 
