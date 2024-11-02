@@ -96,7 +96,7 @@ class RoundedButton extends JButton {
 class DatabaseManager {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/splitwise_clone";
     private static final String USER = "root";
-    private static final String PASS = "DB!d43m0n";
+    private static final String PASS = "password";
 
     public static Connection getConnection() throws SQLException {
         try {
