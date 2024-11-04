@@ -1,9 +1,10 @@
-# splitwise_clone
+splitwise_clone
+---
 This is a splitwise clone made for APP project
+Schema used
+Expenses table - Stores all expenses
+SQL
 
-# Schema used 
-
-## Expenses table - Stores all expenses
 CREATE TABLE expenses (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -11,13 +12,18 @@ CREATE TABLE expenses (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-## Groups table - Stores all groups
+Groups table - Stores all groups
+SQL
+
 CREATE TABLE expense_groups (
     id INT AUTO_INCREMENT PRIMARY KEY,    
     name VARCHAR(255) NOT NULL UNIQUE,    
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP  
 );
-## Participants table - Stores all users/participants
+
+Participants table - Stores all users/participants
+SQL
+
 CREATE TABLE participants (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL UNIQUE,
@@ -25,7 +31,9 @@ CREATE TABLE participants (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-## Group Members junction table - Maps participants to groups
+Group Members junction table - Maps participants to groups
+SQL
+
 CREATE TABLE group_members (
     group_id INT,
     participant_id INT,
@@ -35,7 +43,9 @@ CREATE TABLE group_members (
     FOREIGN KEY (participant_id) REFERENCES participants(id)
 );
 
-## Expense Shares table - Maps expenses to participants and their shares
+Expense Shares table - Maps expenses to participants and their shares
+SQL
+
 CREATE TABLE expense_shares (
     expense_id INT,
     participant_id INT,
@@ -46,7 +56,9 @@ CREATE TABLE expense_shares (
     FOREIGN KEY (participant_id) REFERENCES participants(id)
 );
 
-# Add indexes for better query performance
+Add indexes for better query performance
+SQL
+
 CREATE INDEX idx_expense_created ON expenses(created_at);
 CREATE INDEX idx_group_name ON groups(name);
 CREATE INDEX idx_participant_name ON participants(name);
