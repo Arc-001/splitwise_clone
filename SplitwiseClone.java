@@ -96,7 +96,7 @@ class RoundedButton extends JButton {
 class DatabaseManager {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/splitwise_clone";
     private static final String USER = "root";
-    private static final String PASS = "password";
+    private static final String PASS = "DB!d43m0n";
 
     public static Connection getConnection() throws SQLException {
         try {
@@ -471,6 +471,12 @@ class SplitwiseClone extends JFrame {
             return;
         }
 
+        Group group = groups.get(groupName);
+        if (group.getMembers().contains(participantName)) {
+            showError("Participant is already a member of the group.");
+            return;
+        }
+
         try (Connection conn = DatabaseManager.getConnection()) {
             // Get IDs for group and participant
             int groupId = getGroupId(conn, groupName);
@@ -489,7 +495,6 @@ class SplitwiseClone extends JFrame {
                 stmt.executeUpdate();
             }
 
-            Group group = groups.get(groupName);
             if (group.addMember(participantName)) {
                 updateGroupMemberList();
             }
@@ -498,6 +503,7 @@ class SplitwiseClone extends JFrame {
             showError("Failed to add member to group: " + e.getMessage());
         }
     }
+
 
     private int getGroupId(Connection conn, String groupName) throws SQLException {
         String sql = "SELECT id FROM expense_groups WHERE name = ?";
@@ -549,11 +555,11 @@ class SplitwiseClone extends JFrame {
 
             // Get group members count
             sql = """
-                SELECT COUNT(*) as member_count 
-                FROM group_members gm 
-                JOIN expense_groups g ON gm.group_id = g.id 
-                WHERE g.name = ?
-            """;
+            SELECT COUNT(*) as member_count 
+            FROM group_members gm 
+            JOIN expense_groups g ON gm.group_id = g.id 
+            WHERE g.name = ?
+        """;
             int memberCount = 0;
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setString(1, selectedGroup);
@@ -608,6 +614,7 @@ class SplitwiseClone extends JFrame {
             showError("Failed to calculate split: " + e.getMessage());
         }
     }
+
 
     private JTextField createStyledTextField() {
         JTextField field = new JTextField(20);
